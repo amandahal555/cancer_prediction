@@ -84,6 +84,12 @@ def predict(data: CancerInput):
         "worst fractal dimension": data.worst_fractal_dimension,
     }
     df = pd.DataFrame([row])
+
+    logger.info(f"mean_radius input= {df['mean_radius'].iloc[0]}")
+    logger.info(f"worst_area input: {df['worst_area'].iloc[0]}")
+
+
+
     pred = model.predict(df)[0]
     prob = model.predict_proba(df)[0][1]
     latency = time.time() - start_time
