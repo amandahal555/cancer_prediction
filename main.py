@@ -88,3 +88,5 @@ def predict(data: CancerInput):
     }
 
 
+
+
