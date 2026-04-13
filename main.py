@@ -2,9 +2,13 @@ from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel
 import pandas as pd
+import logging
+import time
 
 
 model = joblib.load('cancer_pipeline.pkl')
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title='cancer prediction API')
 
@@ -46,6 +50,7 @@ def home():
 
 @app.post("/predict")
 def predict(data: CancerInput):
+    start_time = time.time()
     row = {
         "mean radius": data.mean_radius,
         "mean texture": data.mean_texture,
@@ -81,6 +86,10 @@ def predict(data: CancerInput):
     df = pd.DataFrame([row])
     pred = model.predict(df)[0]
     prob = model.predict_proba(df)[0][1]
+    latency = time.time() - start_time
+
+    logger.info(f"prediction: {int(pred)},probability: {float(prob):.6f}")
+    logger.info(f"Inference latency: {latency:.4f} seconds")
 
     return {
         'prediction': int(pred),
