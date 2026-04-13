@@ -85,8 +85,8 @@ def predict(data: CancerInput):
     }
     df = pd.DataFrame([row])
 
-    logger.info(f"mean_radius input= {df['mean_radius'].iloc[0]}")
-    logger.info(f"worst_area input: {df['worst_area'].iloc[0]}")
+    logger.info(f"mean_radius input= {df['mean radius'].iloc[0]}")
+    logger.info(f"worst_area input: {df['worst area'].iloc[0]}")
 
 
 
